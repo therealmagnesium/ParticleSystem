@@ -1,0 +1,9 @@
+# Directories
+.ccls-cache/
+.config/
+bin/
+build/
+
+# Files
+.breakpoints
+replit.nix
