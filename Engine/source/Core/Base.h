@@ -1,10 +1,20 @@
 #pragma once
-#include <stdio.h>
 #include <stdint.h>
 
-#define LOG(...) { printf(__VA_ARGS__); }
-#define ERROR_RETURN(R, ...) { printf(__VA_ARGS__); return R; }
-#define ERROR_RETURN_VOID(...) { printf(__VA_ARGS__); return; }
+#define LOG(...)                                                                                                       \
+    {                                                                                                                  \
+        printf(__VA_ARGS__);                                                                                           \
+    }
+#define ERROR_RETURN(R, ...)                                                                                           \
+    {                                                                                                                  \
+        printf(__VA_ARGS__);                                                                                           \
+        return R;                                                                                                      \
+    }
+#define ERROR_RETURN_VOID(...)                                                                                         \
+    {                                                                                                                  \
+        printf(__VA_ARGS__);                                                                                           \
+        return;                                                                                                        \
+    }
 
 typedef int8_t s8;
 typedef int16_t s16;

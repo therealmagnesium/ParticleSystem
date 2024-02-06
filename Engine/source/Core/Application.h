@@ -3,43 +3,51 @@
 
 #include <string>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/System/Clock.hpp>
+#include <SFML/System/Time.hpp>
 
 namespace Engine
 {
-	struct AppInfo
-	{
-		std::string name;
-		std::string version;	
-		std::string author;
-		u32 width;
-		u32 height;
-		u16 targetFPS;
-	};
-	
-	class Application
-	{
-	public:
-		Application(const AppInfo& info);
-		virtual ~Application();	
+    struct AppInfo
+    {
+        std::string name;
+        std::string version;
+        std::string author;
+        u32 width;
+        u32 height;
+        u16 targetFPS;
+    };
 
-		static inline Application* Get() { return m_instance; }
-		inline AppInfo& GetInfo() { return m_info; }
+    class Application
+    {
+    public:
+        Application(const AppInfo& info);
+        virtual ~Application();
 
-		void Run();	
-		void Quit();
-	
-		virtual void Update() = 0;
-		virtual void Render() = 0;
+        static inline Application* Get() { return m_instance; }
 
-	protected:
-		bool m_running = true;
-		AppInfo m_info;
-		sf::RenderWindow m_window;
+        inline float GetDT() const { return m_deltaTime.asSeconds(); }
+        inline AppInfo& GetInfo() { return m_info; }
 
-	private:
-		void HandleEvents();
+        void Run();
+        void Quit();
 
-	private:
-		static Application* m_instance;
-	};
+        virtual void Update() = 0;
+        virtual void Render() = 0;
+
+    private:
+        void HandleEvents();
+
+    protected:
+        sf::RenderWindow m_window;
+
+    private:
+        bool m_running = true;
+        AppInfo m_info;
+
+        sf::Time m_deltaTime;
+        sf::Clock m_deltaClock;
+
+        static Application* m_instance;
+    };
 }
