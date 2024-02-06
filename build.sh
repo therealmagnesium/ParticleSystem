@@ -1,7 +1,7 @@
 #!/bin/bash
 
 config="$1"
-appName="Application"
+appName="ParticleSystem"
 
 if [[ $config = "run" ]]
 then
@@ -23,6 +23,8 @@ elif [[ $config = "clean" ]]
 then
     rm -rf bin build
 else
+    vendor/premake/linux/premake5 export-compile-commands
     vendor/premake/linux/premake5 gmake
     make all config=$config -j4
+    cp compile_commands/debug.json compile_commands.json
 fi

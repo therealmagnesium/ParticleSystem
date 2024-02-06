@@ -1,9 +1,12 @@
 # Directories
 .ccls-cache/
 .config/
+.cache/
 bin/
 build/
+compile_commands/
 
 # Files
 .breakpoints
 replit.nix
+compile_commands.json
