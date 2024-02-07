@@ -1,6 +1,7 @@
 #include "Scene/Particle.h"
 #include "Core/Application.h"
 
+#include <SFML/Window/Mouse.hpp>
 #include <stdlib.h>
 
 namespace Engine
@@ -29,31 +30,56 @@ namespace Engine
         m_lifeSpan -= 10.f;
     }
 
-    void Particle::Render(sf::RenderWindow* window)
+    void Particle::Render(sf::RenderWindow* window, const ParticleState& state)
     {
         if (m_lifeSpan > 0.f)
         {
             m_shape.setPosition(m_position);
-            m_shape.setFillColor(sf::Color(0xFF, 0xDD, 0x00, (u8)m_lifeSpan));
-            m_shape.setOutlineColor(sf::Color(0xFF, 0xBB, 0x00, (u8)m_lifeSpan));
+            m_shape.setFillColor(sf::Color(state.fillColor.r, state.fillColor.g,
+                state.fillColor.b, (u8)m_lifeSpan));
+            m_shape.setOutlineColor(sf::Color(state.outlineColor.r, state.outlineColor.g, 
+                state.outlineColor.b, (u8)m_lifeSpan));
         }
 
         window->draw(m_shape);
     }
 
-    void Particle::HandleCollisions()
+    void SpawnParticles(std::vector<Particle*>& particles, const ParticleState& state)
     {
-        bool horizontalCheck = (m_position.x < 0.f + m_shape.getRadius()) ||
-                               (m_position.x > appInstance->GetInfo().width - m_shape.getRadius());
-
-        bool verticalCheck = (m_position.y < 0.f + m_shape.getRadius()) ||
-                             (m_position.y > appInstance->GetInfo().height - m_shape.getRadius());
-
-        if (horizontalCheck)
-            m_velocity.x *= -1.f;
-
-        if (verticalCheck)
-            m_velocity.y *= -1.f;
+        Particle* particle = new Particle();
+        if (particles.size() < state.maxParticles)
+        {
+            particle->SetPosition(state.spawnPosition.x, state.spawnPosition.y);
+            particle->GetShape().setFillColor(state.fillColor);
+            particle->GetShape().setOutlineColor(state.outlineColor);
+            
+            particles.push_back(particle);
+        }
     }
 
+    void UpdateParticles(std::vector<Particle*>& particles)
+    { 
+        for (int i = 0; i < particles.size(); i++)
+        {
+            particles[i]->Update();
+
+            if (particles[i]->IsDead())
+                particles.erase(particles.begin() + i);
+        } 
+    }
+
+    void DrawParticles(std::vector<Particle*>& particles, const ParticleState& state)
+    {
+        for (int i = 0; i < particles.size(); i++)
+        {
+            Particle* particle = particles[i];
+            particle->Render(&appInstance->GetWindow(), state);
+        }
+    }
+
+    void FreeParticles(std::vector<Particle*>& particles)
+    { 
+        for (int i = 0; i < particles.size(); i++)	
+            delete particles[i];
+    }
 }

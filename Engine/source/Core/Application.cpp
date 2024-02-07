@@ -14,7 +14,7 @@ namespace Engine
 
         // Create the window
         std::string windowTitle = m_info.name + " v" + m_info.version;
-        m_window.create(sf::VideoMode(m_info.width, m_info.height), windowTitle);
+        m_window.create(sf::VideoMode(m_info.windowWidth, m_info.windowHeight), windowTitle);
         m_window.setFramerateLimit(m_info.targetFPS);
     }
 

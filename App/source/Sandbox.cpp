@@ -1,44 +1,33 @@
 #include "Sandbox.h"
-
 #include <SFML/Window/Mouse.hpp>
+
 #include <math.h>
 
 Sandbox::Sandbox(const AppInfo& info) : Application(info)
 {
+	m_particleState.maxParticles = 30;
+	m_particleState.spawnPosition = sf::Vector2i(0, 0);
+	m_particleState.fillColor = sf::Color(0x00, 0xFF, 0xDD);
+	m_particleState.outlineColor = sf::Color(0x00, 0xFF, 0xBB);
 }
 
 Sandbox::~Sandbox()
 {
-	for (int i = 0; i < m_particles.size(); i++)	
-		delete m_particles[i];
+	FreeParticles(m_particles);
 }
 
 void Sandbox::Update()
 {
-	Particle* particle = new Particle();
-	if (m_particles.size() < 30 && sf::Mouse::isButtonPressed(sf::Mouse::Left))
-	{
-		sf::Vector2i mousePosition = sf::Mouse::getPosition(m_window);
-		particle->SetPosition(mousePosition.x, mousePosition.y);
-		m_particles.push_back(particle);
-	}
+	sf::Vector2i mousePosition = sf::Mouse::getPosition(GetWindow());
+	m_particleState.spawnPosition = mousePosition;
 	
-	for (int i = 0; i < m_particles.size(); i++)
-	{
-		m_particles[i]->Update();
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+		SpawnParticles(m_particles, m_particleState);
 
-		if (m_particles[i]->IsDead())
-			m_particles.erase(m_particles.begin() + i);
-	}	
-
-	m_currentFrame++;
+	UpdateParticles(m_particles);
 }
 
 void Sandbox::Render()
 {
-	for (int i = 0; i < m_particles.size(); i++)
-	{
-		Particle* particle = m_particles[i];
-		particle->Render(&m_window);
-	}	
+	DrawParticles(m_particles, m_particleState);
 }

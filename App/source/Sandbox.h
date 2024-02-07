@@ -17,6 +17,6 @@ public:
 	void Render() override;
 
 private:
-	u64 m_currentFrame = 0;
+	ParticleState m_particleState;
 	std::vector<Particle*> m_particles;
 };

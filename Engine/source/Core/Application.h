@@ -13,8 +13,8 @@ namespace Engine
         std::string name;
         std::string version;
         std::string author;
-        u32 width;
-        u32 height;
+        u32 windowWidth;
+        u32 windowHeight;
         u16 targetFPS;
     };
 
@@ -28,6 +28,7 @@ namespace Engine
 
         inline float GetDT() const { return m_deltaTime.asSeconds(); }
         inline AppInfo& GetInfo() { return m_info; }
+        inline sf::RenderWindow& GetWindow() { return m_window; }
 
         void Run();
         void Quit();
