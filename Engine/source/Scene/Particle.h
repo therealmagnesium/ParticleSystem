@@ -1,5 +1,4 @@
 #pragma once
-#include "Core/Base.h"
 #include "Core/Timer.h"
 
 #include <SFML/System/Vector2.hpp>
@@ -12,12 +11,13 @@ namespace Engine
     struct ParticleState
     {
         float spawnRate;
+        float dieSpeed;
         Timer timer;
-        sf::Vector2i spawnPosition;         
+        sf::Vector2i spawnPosition;
         sf::Color fillColor;
         sf::Color outlineColor;
     };
-    
+
     class Particle
     {
     public:
