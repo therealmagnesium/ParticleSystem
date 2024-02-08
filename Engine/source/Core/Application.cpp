@@ -70,6 +70,8 @@ namespace Engine
             Render();
 
             m_window.display(); // End rendering
+            
+            m_currentFrame++;
         }
     }
 

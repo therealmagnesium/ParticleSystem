@@ -1,5 +1,6 @@
 #pragma once
 #include "Core/Base.h"
+#include "Core/Timer.h"
 
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -10,7 +11,8 @@ namespace Engine
 {
     struct ParticleState
     {
-        u32 maxParticles;
+        float spawnRate;
+        Timer timer;
         sf::Vector2i spawnPosition;         
         sf::Color fillColor;
         sf::Color outlineColor;
@@ -28,7 +30,7 @@ namespace Engine
         inline void SetVelocity(float x, float y) { m_velocity = sf::Vector2f(x, y); }
         inline void SetAcceleration(float x, float y) { m_acceleration = sf::Vector2f(x, y); }
 
-        void Update();
+        void Update(const ParticleState& state);
         void Render(sf::RenderWindow* window, const ParticleState& state);
 
     private:
@@ -40,8 +42,8 @@ namespace Engine
         sf::CircleShape m_shape;
     };
 
-    void SpawnParticles(std::vector<Particle*>& particles, const ParticleState& state);
-    void UpdateParticles(std::vector<Particle*>& particles);
-    void DrawParticles(std::vector<Particle*>& particles, const ParticleState& state);
+    void SpawnParticles(std::vector<Particle*>& particles, ParticleState& state);
+    void UpdateParticles(std::vector<Particle*>& particles, ParticleState& state);
+    void DrawParticles(std::vector<Particle*>& particles, ParticleState& state);
     void FreeParticles(std::vector<Particle*>& particles);
 }

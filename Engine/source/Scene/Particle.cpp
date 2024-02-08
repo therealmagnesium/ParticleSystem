@@ -13,8 +13,8 @@ namespace Engine
         appInstance = Application::Get();
 
         m_position = sf::Vector2f(0.f, 0.f);
-        m_velocity = sf::Vector2f((rand() % 10) - 5.f, (rand() % 10));
-        m_acceleration = sf::Vector2f(0.f, 0.15f);
+        m_velocity = sf::Vector2f((rand() % 600) - 300.f, (rand() % 200) + 600.f);
+        m_acceleration = sf::Vector2f(0.f, 1.f);
 
         m_shape.setRadius(10.f);
         m_shape.setPointCount(32);
@@ -22,10 +22,10 @@ namespace Engine
         m_shape.setOrigin(m_shape.getRadius(), m_shape.getRadius());
     }
 
-    void Particle::Update()
+    void Particle::Update(const ParticleState& state)
     {
         m_velocity += m_acceleration;
-        m_position += m_velocity;
+        m_position += m_velocity * appInstance->GetDT();
 
         m_lifeSpan -= 10.f;
     }
@@ -44,31 +44,36 @@ namespace Engine
         window->draw(m_shape);
     }
 
-    void SpawnParticles(std::vector<Particle*>& particles, const ParticleState& state)
+    void SpawnParticles(std::vector<Particle*>& particles, ParticleState& state)
     {
-        Particle* particle = new Particle();
-        if (particles.size() < state.maxParticles)
-        {
+        Particle* particle = new Particle(); 
+        
+        if (IsTimerDone(&state.timer))
+        { 
             particle->SetPosition(state.spawnPosition.x, state.spawnPosition.y);
             particle->GetShape().setFillColor(state.fillColor);
             particle->GetShape().setOutlineColor(state.outlineColor);
-            
+
             particles.push_back(particle);
+
+            StartTimer(&state.timer, state.spawnRate);
         }
     }
 
-    void UpdateParticles(std::vector<Particle*>& particles)
+    void UpdateParticles(std::vector<Particle*>& particles, ParticleState& state)
     { 
+        UpdateTimer(&state.timer);
+        
         for (int i = 0; i < particles.size(); i++)
         {
-            particles[i]->Update();
+            particles[i]->Update(state);
 
             if (particles[i]->IsDead())
                 particles.erase(particles.begin() + i);
         } 
     }
 
-    void DrawParticles(std::vector<Particle*>& particles, const ParticleState& state)
+    void DrawParticles(std::vector<Particle*>& particles, ParticleState& state)
     {
         for (int i = 0; i < particles.size(); i++)
         {

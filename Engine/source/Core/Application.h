@@ -27,6 +27,7 @@ namespace Engine
         static inline Application* Get() { return m_instance; }
 
         inline float GetDT() const { return m_deltaTime.asSeconds(); }
+        inline u64 GetCurrentFrame() const { return m_currentFrame; }
         inline AppInfo& GetInfo() { return m_info; }
         inline sf::RenderWindow& GetWindow() { return m_window; }
 
@@ -44,6 +45,8 @@ namespace Engine
 
     private:
         bool m_running = true;
+        u64 m_currentFrame = 0;
+
         AppInfo m_info;
 
         sf::Time m_deltaTime;
