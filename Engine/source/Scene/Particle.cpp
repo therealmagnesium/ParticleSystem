@@ -24,7 +24,7 @@ namespace Engine
 
     void Particle::Update(const ParticleState& state)
     {
-        m_velocity += m_acceleration;
+        m_velocity += m_acceleration * appInstance->GetDT();
         m_position += m_velocity * appInstance->GetDT();
 
         m_lifeSpan -= state.dieSpeed * appInstance->GetDT();
@@ -48,13 +48,11 @@ namespace Engine
         if (IsTimerDone(&state.timer))
         {
             Particle* particle = new Particle();
-            
+
             particle->SetPosition(state.spawnPosition.x, state.spawnPosition.y);
             particle->SetVelocity(state.velocity.x, state.velocity.y);
             particle->SetAcceleration(state.acceleration.x, state.acceleration.y);
 
-            
-            
             particle->GetShape().setFillColor(state.fillColor);
             particle->GetShape().setOutlineColor(state.outlineColor);
 

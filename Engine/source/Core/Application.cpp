@@ -30,7 +30,6 @@ namespace Engine
             {
                 case sf::Event::Closed:
                 {
-                    LOG("Quitting application...\n");
                     Quit();
                     break;
                 }
@@ -48,9 +47,6 @@ namespace Engine
                 default:
                     break;
             }
-
-            if (event.type == sf::Event::Closed)
-                Quit();
         }
     }
 
@@ -62,15 +58,15 @@ namespace Engine
         {
             m_deltaTime = m_deltaClock.restart();
 
-            HandleEvents();
-
             m_window.clear(sf::Color(0x11, 0x13, 0x20)); // Begin rendering
 
             Update();
             Render();
 
             m_window.display(); // End rendering
-            
+
+            HandleEvents();
+
             m_currentFrame++;
         }
     }
@@ -79,5 +75,7 @@ namespace Engine
     {
         m_running = false;
         m_window.close();
+
+        LOG("Application shutdown successfully\n");
     }
 }

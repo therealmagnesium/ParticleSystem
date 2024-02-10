@@ -28,9 +28,21 @@ namespace Engine
         inline bool IsDead() const { return (m_lifeSpan < 0.f); }
         inline sf::CircleShape& GetShape() { return m_shape; }
 
-        inline void SetPosition(float x, float y) { m_position.x = x; m_position.y = y; }
-        inline void SetVelocity(float x, float y) { m_velocity.x = x; m_velocity.y = y; }
-        inline void SetAcceleration(float x, float y) { m_acceleration.x = x; m_acceleration.y = y; }
+        inline void SetPosition(float x, float y)
+        {
+            m_position.x = x;
+            m_position.y = y;
+        }
+        inline void SetVelocity(float x, float y)
+        {
+            m_velocity.x = x;
+            m_velocity.y = y;
+        }
+        inline void SetAcceleration(float x, float y)
+        {
+            m_acceleration.x = x;
+            m_acceleration.y = y;
+        }
 
         void Update(const ParticleState& state);
         void Render(sf::RenderWindow* window, const ParticleState& state);
