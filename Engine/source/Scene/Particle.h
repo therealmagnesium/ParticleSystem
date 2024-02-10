@@ -14,6 +14,8 @@ namespace Engine
         float dieSpeed;
         Timer timer;
         sf::Vector2i spawnPosition;
+        sf::Vector2f velocity;
+        sf::Vector2f acceleration;
         sf::Color fillColor;
         sf::Color outlineColor;
     };
@@ -26,9 +28,9 @@ namespace Engine
         inline bool IsDead() const { return (m_lifeSpan < 0.f); }
         inline sf::CircleShape& GetShape() { return m_shape; }
 
-        inline void SetPosition(float x, float y) { m_position = sf::Vector2f(x, y); }
-        inline void SetVelocity(float x, float y) { m_velocity = sf::Vector2f(x, y); }
-        inline void SetAcceleration(float x, float y) { m_acceleration = sf::Vector2f(x, y); }
+        inline void SetPosition(float x, float y) { m_position.x = x; m_position.y = y; }
+        inline void SetVelocity(float x, float y) { m_velocity.x = x; m_velocity.y = y; }
+        inline void SetAcceleration(float x, float y) { m_acceleration.x = x; m_acceleration.y = y; }
 
         void Update(const ParticleState& state);
         void Render(sf::RenderWindow* window, const ParticleState& state);

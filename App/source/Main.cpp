@@ -4,10 +4,10 @@ int main(int argc, char* argv[])
 {
     AppInfo info;
     info.name = "Particle system";
-    info.version = "1.2-dev";
+    info.version = "1.3-dev";
     info.author = "Magnus Ahlstromer V";
-    info.windowWidth = 800;
-    info.windowHeight = 600;
+    info.windowWidth = 1280;
+    info.windowHeight = 720;
     info.targetFPS = 480;
 
     Sandbox sandboxApp(info);

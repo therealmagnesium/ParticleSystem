@@ -13,8 +13,8 @@ namespace Engine
         appInstance = Application::Get();
 
         m_position = sf::Vector2f(0.f, 0.f);
-        m_velocity = sf::Vector2f((rand() % 800) - 400.f, (rand() % 200) + 600.f);
-        m_acceleration = sf::Vector2f(0.f, 1.5f);
+        m_velocity = sf::Vector2f(0.f, 0.f);
+        m_acceleration = sf::Vector2f(0.f, 0.f);
 
         m_shape.setRadius(10.f);
         m_shape.setPointCount(32);
@@ -48,7 +48,13 @@ namespace Engine
         if (IsTimerDone(&state.timer))
         {
             Particle* particle = new Particle();
+            
             particle->SetPosition(state.spawnPosition.x, state.spawnPosition.y);
+            particle->SetVelocity(state.velocity.x, state.velocity.y);
+            particle->SetAcceleration(state.acceleration.x, state.acceleration.y);
+
+            
+            
             particle->GetShape().setFillColor(state.fillColor);
             particle->GetShape().setOutlineColor(state.outlineColor);
 

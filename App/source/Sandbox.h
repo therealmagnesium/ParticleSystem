@@ -17,6 +17,9 @@ public:
     void Render() override;
 
 private:
-    ParticleState m_particleState;
-    std::vector<Particle*> m_particles;
+    ParticleState m_blueParticleState;
+    ParticleState m_orangeParticleState;
+
+    std::vector<Particle*> m_blueParticles;
+    std::vector<Particle*> m_orangeParticles;
 };
